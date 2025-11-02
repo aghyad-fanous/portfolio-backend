@@ -29,18 +29,20 @@ model User {
 }
 
 model Blog {
-  id          String   @id @default(cuid())
-  title       String
-  slug        String   @unique
-  content     String
-  thumbnail   String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id        String   @id @default(cuid())
+  title     String
+  slug      String   @unique
+  content   String
+  thumbnail String?      // يمكن رفع صورة أو وضع URL
+  category  String       // حقل جديد
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   // Relations
-  authorId    String
-  author      User     @relation(fields: [authorId], references: [id])
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id])
 }
+
 
 model Project {
   id          String   @id @default(cuid())
@@ -59,10 +61,11 @@ model Project {
 }
 
 model Subscriber {
-  id          String   @id @default(cuid())
-  email       String   @unique
-  subscribedAt DateTime @default(now())
+  id            String   @id @default(cuid())
+  email         String   @unique
+  subscribedAt  DateTime @default(now())
 }
+
 
 enum Role {
   USER
