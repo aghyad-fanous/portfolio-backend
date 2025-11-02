@@ -4,9 +4,9 @@ import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import authRoutes from "./routes/authRoutes.js";
 // import profileRoutes from "./routes/profileRoutes";
-// import blogRoutes from "./routes/blogRoutes";
+import blogRoutes from "./routes/blogRoutes.js";
 // import projectRoutes from "./routes/projectRoutes";
-// import newsletterRoutes from "./routes/newsletterRoutes";
+import newsletterRoutes from "./routes/newsletterRoutes.js";
 
 const app: Application = express();
 
@@ -21,8 +21,8 @@ app.get("/", (req: Request, res: Response) => {
 
 app.use("/api/auth", authRoutes);
 // app.use("/api/profile", profileRoutes);
-// app.use("/api/blogs", blogRoutes);
+app.use("/api/newsletter", newsletterRoutes);
+app.use("/api/blogs", blogRoutes);
 // app.use("/api/projects", projectRoutes);
-// app.use("/api/newsletter", newsletterRoutes);
 
 export default app;
