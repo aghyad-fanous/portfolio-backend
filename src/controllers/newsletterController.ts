@@ -47,7 +47,7 @@ export const notify = async (req: Request, res: Response) => {
     type Subscriber = { 
         id: string
         email: string
-        subsecribedAt: Date
+        subscribedAt: Date
      }
     await Promise.all(
       subscribers.map((sub:Subscriber) =>
