@@ -9,7 +9,8 @@
     "prisma:generate": "dotenv -e .env prisma generate",
     "prisma:migrate": "dotenv -e .env prisma migrate dev --name init",
     "prisma:pull": "dotenv -e .env prisma db pull",
-    "prisma:validate": "dotenv -e .env prisma validate"
+    "prisma:validate": "dotenv -e .env prisma validate",
+    "postinstall": "prisma generate"
   },
   "keywords": [],
   "author": "",
