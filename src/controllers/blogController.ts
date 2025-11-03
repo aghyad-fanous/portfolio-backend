@@ -8,11 +8,11 @@ const prisma = new PrismaClient()
 const sendNotification = async (title: string, content: string) => {
   const BASE_URL = process.env.BASE_URL
   if (!BASE_URL) return
-
   await axios.post(`${BASE_URL}/api/newsletter/notify`, {
     subject: `مقال جديد: ${title}`,
     message: `${content.slice(0, 150)}... اقرأ المزيد على موقعنا.`,
-  })
+  }).then(() =>console.log('first'))
+  
 }
 
 // ================== CRUD ==================
