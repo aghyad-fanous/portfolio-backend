@@ -1,10 +1,19 @@
 import { Request, Response } from 'express'
 import axios from 'axios'
 import { PrismaClient } from '@prisma/client'
-import { notify } from './newsletterController.js'
 
 const prisma = new PrismaClient()
 
+// Notification helper
+const sendNotification = async (title: string, content: string) => {
+  const BASE_URL = process.env.BASE_URL
+  if (!BASE_URL) return
+
+  await axios.post(`${BASE_URL}/api/newsletter/notify`, {
+    subject: `مقال جديد: ${title}`,
+    message: `${content.slice(0, 150)}... اقرأ المزيد على موقعنا.`,
+  })
+}
 
 // ================== CRUD ==================
 
@@ -23,7 +32,7 @@ export const createBlog = async (req: Request, res: Response) => {
     })
 
     // تريغر Newsletter تلقائي
-    await notify(title, content)
+    await sendNotification(title, content)
 
     return res.status(201).json(blog)
   } catch (err: any) {
