@@ -5,7 +5,7 @@ import cookieParser from "cookie-parser";
 import authRoutes from "./routes/authRoutes.js";
 // import profileRoutes from "./routes/profileRoutes";
 import blogRoutes from "./routes/blogRoutes.js";
-// import projectRoutes from "./routes/projectRoutes";
+import projectRoutes from "./routes/projectRoutes.js";
 import newsletterRoutes from "./routes/newsletterRoutes.js";
 
 const app: Application = express();
@@ -23,6 +23,6 @@ app.use("/api/auth", authRoutes);
 // app.use("/api/profile", profileRoutes);
 app.use("/api/newsletter", newsletterRoutes);
 app.use("/api/blogs", blogRoutes);
-// app.use("/api/projects", projectRoutes);
+app.use("/api/projects", projectRoutes);
 
 export default app;
