@@ -52,7 +52,7 @@ export const notify = async (req: Request, res: Response) => {
     await Promise.all(
       subscribers.map((sub:Subscriber) =>
         resend.emails.send({
-          from: 'Aghyad Fanous Blog <aghyad.fanous@resend.com>',
+          from: 'Aghyad Fanous Blog <aghyad.fanous@resend.dev>',
           to: sub.email,
           subject,
           html: `<p>${message}</p>`,
