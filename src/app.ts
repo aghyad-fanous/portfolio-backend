@@ -10,8 +10,26 @@ import newsletterRoutes from "./routes/newsletterRoutes.js";
 
 const app: Application = express();
 
+// السماح فقط للفرونت المحلي ونسخة Vercel
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://aghyad-fanous-portfolio.vercel.app"
+]
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true)
+      } else {
+        callback(new Error("Not allowed by CORS"))
+      }
+    },
+    credentials: true, // مهم جداً
+  })
+)
+
 app.use(express.json());
-app.use(cors());
 app.use(morgan("dev"));
 app.use(cookieParser());
 
