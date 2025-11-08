@@ -99,8 +99,8 @@ export const logout = async (_req: Request, res: Response) => {
   try {
     res.clearCookie(COOKIE_NAME, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
+      secure: true,
+      sameSite: "none",
     }).status(200).json({ message: "Logged out successfully" });
   } catch (err: any) {
     console.error("🔥 logout error:", err.message);
