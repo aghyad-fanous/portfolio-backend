@@ -12,7 +12,7 @@ const app: Application = express();
 
 // السماح فقط للفرونت المحلي ونسخة Vercel
 const allowedOrigins = [
-  "localhost:3000",
+  "http://localhost:3000",
   "https://aghyad-fanous-portfolio.vercel.app"
 ]
 
