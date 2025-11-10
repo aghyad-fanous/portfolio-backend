@@ -1,4 +1,5 @@
 // src/middleware/authMiddleware.ts
+
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import prisma from "../config/db.js";
@@ -6,44 +7,46 @@ import prisma from "../config/db.js";
 const JWT_SECRET = process.env.JWT_SECRET || "change_this_secret";
 
 export type AuthRequest = Request & {
-  user?: {
-    id: string;
-    email: string;
-    role: string;
-  };
+  user?: {
+    id: string;
+    email: string;
+    role: string;
+  };
 };
 
 export const verifyToken = async (
-  req: AuthRequest,
-  res: Response,
-  next: NextFunction
+  req: AuthRequest,
+  res: Response,
+  next: NextFunction
 ) => {
-  try {
-    // Prefer cookie first
-    const token =
-      req.cookies?.token ||
-      req.headers.authorization?.startsWith("Bearer ")
-        ? req.headers.authorization!.split(" ")[1]
-        : undefined;
+  try {
+    // 🚨 التعديل: التركيز على قراءة التوكن من هيدر Authorization فقط
+    const authHeader = req.headers.authorization;
+    
+    let token: string | undefined;
 
-    if (!token) {
-      return res.status(401).json({ message: "Not authenticated" });
-    }
+    if (authHeader && authHeader.startsWith("Bearer ")) {
+      token = authHeader.split(" ")[1];
+    }
 
-    const decoded = jwt.verify(token, JWT_SECRET) as { userId: string; email: string; role: string };
+    if (!token) {
+      return res.status(401).json({ message: "Not authenticated (Token missing from Authorization header)" });
+    }
 
-    // optional: fetch fresh user from DB (to verify role/exists)
-    const user = await prisma.user.findUnique({ where: { id: decoded.userId } });
+    const decoded = jwt.verify(token, JWT_SECRET) as { userId: string; email: string; role: string };
 
-    if (!user) return res.status(401).json({ message: "Invalid token (user not found)" });
+    // optional: fetch fresh user from DB (to verify role/exists)
+    const user = await prisma.user.findUnique({ where: { id: decoded.userId } });
 
-    req.user = { id: user.id, email: user.email, role: user.role };
+    if (!user) return res.status(401).json({ message: "Invalid token (user not found)" });
 
-    return next();
-  } catch (err: any) {
-    console.error("verifyToken error:", err.message || err);
-    return res.status(401).json({ message: "Authentication failed" });
-  }
+    req.user = { id: user.id, email: user.email, role: user.role };
+
+    return next();
+  } catch (err: any) {
+    console.error("verifyToken error:", err.message || err);
+    return res.status(401).json({ message: "Authentication failed" });
+  }
 };
 
 export const requireAdmin = (req: AuthRequest, res: Response, next: NextFunction) => {
