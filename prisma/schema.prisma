@@ -25,6 +25,7 @@ model User {
   // Relations
   blogs       Blog[]
   projects    Project[]
+  experiences Experience[]
 }
 
 model Blog {
@@ -65,6 +66,21 @@ model Subscriber {
   subscribedAt  DateTime @default(now())
 }
 
+model Experience {
+  id          String   @id @default(cuid())
+  title       String
+  company     String?  
+  from        String?  
+  to          String?  
+  description String?  
+  locale      String?  
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  ownerId     String?
+  owner       User?    @relation(fields: [ownerId], references: [id])
+}
 
 enum Role {
   USER

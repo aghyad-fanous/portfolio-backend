@@ -1,6 +1,7 @@
 // src/controllers/projectController.ts
 import { Request, Response } from "express";
 import { PrismaClient } from '@prisma/client'
+import { Project } from "../shared/types.js";
 
 const prisma = new PrismaClient()
 
@@ -9,14 +10,7 @@ const prisma = new PrismaClient()
 // إنشاء مشروع جديد (Admin فقط)
 export const createProject = async (req: Request, res: Response) => {
   try {
-    const { title, description, image, liveUrl, codeUrl, tags } = req.body as {
-      title: string;
-      description: string;
-      image?: string;
-      liveUrl?: string;
-      codeUrl?: string;
-      tags: string[];
-    };
+    const { title, description, image, liveUrl, codeUrl, tags } = req.body as Project
     const ownerId = (req as any).user?.id;
 
     if (!title || !description || !tags?.length) {

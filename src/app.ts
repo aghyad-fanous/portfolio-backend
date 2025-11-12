@@ -3,7 +3,7 @@ import cors from "cors";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import authRoutes from "./routes/authRoutes.js";
-// import profileRoutes from "./routes/profileRoutes";
+import experienceRoutes from "./routes/experienceRoutes.js";
 import blogRoutes from "./routes/blogRoutes.js";
 import projectRoutes from "./routes/projectRoutes.js";
 import newsletterRoutes from "./routes/newsletterRoutes.js";
@@ -38,7 +38,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.use("/api/auth", authRoutes);
-// app.use("/api/profile", profileRoutes);
+app.use("/api/experience", experienceRoutes);
 app.use("/api/newsletter", newsletterRoutes);
 app.use("/api/blogs", blogRoutes);
 app.use("/api/projects", projectRoutes);
